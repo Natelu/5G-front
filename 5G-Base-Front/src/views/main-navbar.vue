@@ -2,8 +2,8 @@
   <nav class="site-navbar" :class="'site-navbar--' + navbarLayoutType">
     <div class="site-navbar__header">
       <h1 class="site-navbar__brand" @click="$router.push({ name: 'home' })">
-        <a class="site-navbar__brand-lg" href="javascript:;">城市消防监控后台</a>
-        <a class="site-navbar__brand-mini" href="javascript:;">CityFire</a>
+        <a class="site-navbar__brand-lg" href="javascript:;">5G基站监控后台</a>
+        <!-- <a class="site-navbar__brand-mini" href="javascript:;">CityFire</a> -->
       </h1>
     </div>
     <div class="site-navbar__body clearfix">
@@ -24,7 +24,7 @@
             </el-badge>
           </template>
         </el-menu-item>
-        <el-menu-item index="2">
+        <!-- <el-menu-item index="2">
          <el-badge value="">
             <a href="https://gitee.com/ahqcode/City_Fire" target="_blank">代码库</a>
           </el-badge>
@@ -34,11 +34,11 @@
           <el-menu-item index="2-1"><a href="" target="_blank">CSDN</a></el-menu-item>
           <el-menu-item index="2-2"><a href="" target="_blank">公众号</a></el-menu-item>
           <el-menu-item index="2-3"><a href="https://github.com/huqi1/City_Fire" target="_blank">GitHub</a></el-menu-item>
-        </el-submenu>
+        </el-submenu> -->
         <el-menu-item class="site-navbar__avatar" index="3">
           <el-dropdown :show-timeout="0" placement="bottom">
             <span class="el-dropdown-link">
-              <img src="~@/assets/img/avatar.png" :alt="userName">{{ userName }}
+              <img src="~@/assets/img/avatar_2.jpg" :alt="userName">{{ userName }}
             </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item @click.native="updatePasswordHandle()">修改密码</el-dropdown-item>
@@ -53,6 +53,12 @@
   </nav>
 </template>
 
+<style>
+  .el-submenu__title:hover, .site-sidebar__menu li:hover{
+    background-color: rgba(230, 0, 19, 0.6) !important;
+  }
+  /* . */
+</style>
 <script>
   import UpdatePassword from './main-navbar-update-password'
   import { clearLoginInfo } from '@/utils'

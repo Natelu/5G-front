@@ -1,6 +1,5 @@
 <template>
   <div class="site-wrapper site-page--login">
-    <div class=""></div>
     <div class="site-content__wrapper">
       <div class="site-content">
         <div class="brand-info">
@@ -8,6 +7,7 @@
           <p class="brand-info__intro">区域管理、设备分类、设备管理、预计系统、统计报表</p>
         </div>
         <div class="login-main">
+          <img class="company_logo" src="~@/assets/img/logo_1.png">
           <h3 class="login-title">管理员登录</h3>
           <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()" status-icon>
             <el-form-item prop="userName">
@@ -31,6 +31,8 @@
               <el-button class="login-btn-submit" type="primary" @click="dataFormSubmit()">登录</el-button>
             </el-form-item>
           </el-form>
+          <!-- <img class="company_logo" src="~@/assets/img/logo_1.png"> -->
+          #E60013
         </div>
       </div>
     </div>
@@ -117,8 +119,9 @@
       width: 100%;
       height: 100%;
       content: "";
-      background-image: url(~@/assets/img/login_bg.jpg);
-      background-size: cover;
+      background-image: url(~@/assets/img/index_bg.jpg);
+      background-size:contain; 
+      // background-size: cover;
     }
     .site-content__wrapper {
       position: absolute;
@@ -155,10 +158,11 @@
 
     }
     .login-main {
+      text-align: center;
       position: absolute;
       top: 30px;
       right: 160px;
-      padding: 100px 40px 210px;
+      padding: 50px 40px 210px;
       width: 400px;
     //  min-height: 100%;
       background-color: #fff;
@@ -176,6 +180,12 @@
     .login-btn-submit {
       width: 100%;
       margin-top: 38px;
+    }
+    .company_logo{
+      // background-image: url(~@/assets/img/logo_1.png);
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 20px;
     }
   }
 </style>
