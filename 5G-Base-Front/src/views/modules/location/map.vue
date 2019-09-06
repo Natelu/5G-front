@@ -16,7 +16,8 @@
       <div class="amap-wrapper">
         <el-amap vid="amap" :plugin="plugin"  :center="center" :zoom ="zoom">
           <div v-if=" markersflag == true ">
-              <el-amap-marker  v-for="(marker,idx) in markers" :key= "idx" :position="marker.marker" :events="marker.events"></el-amap-marker>
+              <!-- <el-amap-marker  v-for="(marker,idx) in markers" :key= "idx" :position="marker.marker" :events="marker.events"></el-amap-marker> -->
+            <el-amap-marker  v-for="(marker,idx) in markers" :key= "idx" :position="marker.marker.position" :template="marker.marker.template" :events="marker.events"></el-amap-marker>
             <el-amap-info-window v-if="windowitem" :position="windowitem.position" :visible="windowitem.visible" :content="windowitem.content"></el-amap-info-window>
           </div>
         </el-amap>
@@ -25,6 +26,7 @@
           当前所在位置:  {{ locationinfor }}
         </span>
           <span v-else>正在定位</span>
+        
         </div>
       </div>
     <!-- 弹窗, 新增Map -->
@@ -34,7 +36,8 @@
 </template>
 
 <script>
- import AddLocation from './map-add'
+  import AddLocation from './map-add'
+  import Response from './bases'
 
   export default {
 
@@ -68,7 +71,7 @@
         },
         // 地图搜索
         searchOption: {
-          city: '成都',
+          city: '济南',
           citylimit: true
         },
         addLocationVisible: false,
@@ -96,7 +99,21 @@
                   self.lat = result.position.lat;
                   self.searchOption.city = self.dataForm.city
                   self.center = [self.lng, self.lat];
-                  let marker = [self.lng, self.lat];
+                  // let marker = [self.lng, self.lat];
+                  let marker = {
+                    position: [self.lng, self.lat],
+                    template: `<img src="./static/img/base.png">`,
+                    events:{
+                      click() {
+                        self.windows.forEach(window => {
+                          window.visible = false;
+                        });
+                      }
+                    }
+
+                    // template: `<button>点击</button>`
+                  }
+                  console.log(marker)
                   self.markers = [{
                     marker: marker
                   }
@@ -107,24 +124,54 @@
                 }
               });
             },
-
-
           }
         }],
         markersflag: false,
         markers: [],
         //地图窗口
         windows: [],
-        windowitem: ''
+        windowitem: '',
+        // self.showBases(Response);
       }
     },
     components: {
       AddLocation
     },
-    activated () {
+    mounted:function () {
       //this.getDataList()
+      this.showBases(Response);
     },
     methods: {
+      //基站展示
+
+      showBases(bases){
+        let self = this;
+        console.log("callback  showBases");
+        bases = JSON.parse(JSON.stringify(bases));
+        console.log(bases.Response.response.bases)
+        bases = bases.Response.response.bases;
+        let posLength = bases.length;
+        console.log("posLength 长度" + posLength)
+        self.markers = [];
+        for(var i = 0; i < posLength; i++){
+          let tempPos = bases[i].position;
+          let healthy = bases[i].health;
+          let icon = healthy ? './static/img/baseNormal.png': './static/img/baseErr.png'
+          let marker = {
+            position: [tempPos.lnt, tempPos.lat],
+            template: `<img src="` + icon + '">'
+          };
+          console.log(marker)
+          self.markers.push({
+            marker: marker
+          });
+        };
+        console.log("markers长度：" + self.markers.length);
+        self.markersflag = true;
+        self.loaded = true;
+        // self.$nextTick();
+        // self.
+      },
       //地图搜索
       onSearchResult (pois) {
         this.clearmarkers()

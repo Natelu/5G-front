@@ -10,6 +10,8 @@ const portfinder = require('portfinder')
 
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
+// const HOST = '100.6.10.176'
+// const PORT = 8080
 
 const devWebpackConfig = merge(baseWebpackConfig, {
   module: {
