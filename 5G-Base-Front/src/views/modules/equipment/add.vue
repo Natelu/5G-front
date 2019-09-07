@@ -2,7 +2,7 @@
   <div class="mod-menu">
     <el-form :inline="true" :model="dataForm"  ref="dataForm" :rules="dataRules" label-width="150px">
       <el-form-item label="设备名称：" prop="equipmentName">
-        <el-input v-model="dataForm.equipmentName" placeholder="输入设备名称" ></el-input>
+        <el-input v-model="dataForm.equipmentName" placeholder="输入基站名称" ></el-input>
       </el-form-item>
       <el-form-item label="选择分类：" prop="belongTypename">
         <el-popover
@@ -30,7 +30,7 @@
       <el-form-item label="所在区：" prop="district">
         <el-select v-model="dataForm.district"
                    @change="getlocationList(dataForm.district)"
-                   placeholder="选择设备所在区" style="width:185px">
+                   placeholder="选择设备所在区域" style="width:185px">
           <el-option
             v-for="item in districtList"
             :key="item"
@@ -55,21 +55,21 @@
     <el-form label-width="150px" :rules="dataRules"  ref="dataForm" :model="dataForm">
       <el-form-item label="确认设备编码：" prop="equipmentId">
         <el-input v-model="dataForm.equipmentId" readonly="readonly" style="width:535px"></el-input>
-        <el-button @click="getequipmentId" type="primary">生成编码</el-button>
+        <el-button @click="getequipmentId" type="primary">随机生成编码</el-button>
       </el-form-item>
     </el-form>
 
     <el-form :inline="true" label-width="150px" :rules="dataRules" ref="dataForm" :model="dataForm">
-      <el-form-item label="小区：">
+      <el-form-item label="所在小区：">
         <el-input v-model="dataForm.community" ></el-input>
       </el-form-item>
-      <el-form-item label="单元：">
+      <el-form-item label="单元号：">
         <el-input v-model="dataForm.unit" ></el-input>
       </el-form-item>
-      <el-form-item label="楼层：">
+      <el-form-item label="楼层号：">
         <el-input v-model="dataForm.floor"></el-input>
       </el-form-item>
-      <el-form-item label="楼道：">
+      <el-form-item label="楼道号：">
         <el-input v-model="dataForm.corridor"></el-input>
       </el-form-item>
       <el-form-item label="房间号">
@@ -92,7 +92,8 @@
       </el-form-item>
     </el-form>
     <div >
-      <el-button type="primary"  @click="save()">新增设备</el-button>
+      <el-button type="primary"  @click="save()">确认添加</el-button>
+      <el-button >取消</el-button>
     </div>
     <!-- 弹窗, 新增 / 修改 -->
   <!--  <ShowLocationInfo v-if="showLocationInfo" ref="showLocationInfo" @refreshDataList="getDataList"></ShowLocationInfo>

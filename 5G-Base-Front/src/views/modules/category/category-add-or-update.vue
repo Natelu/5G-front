@@ -203,7 +203,7 @@
     .icon-list__tips {
       font-size: 18px;
       text-align: center;
-      color: #e6a23c;
+      color: darkred;
       cursor: pointer;
     }
   }

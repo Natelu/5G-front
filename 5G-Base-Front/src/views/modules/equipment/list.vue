@@ -29,10 +29,10 @@
         <el-button @click="getDataList()" type="primary">搜索</el-button>
       </el-form-item>
       <el-form-item>
-        <el-button @click="exportdata('','','当前页')" type="primary">导出本页</el-button>
+        <el-button @click="exportdata('','','当前页')" type="primary">导出本页为Excel</el-button>
       </el-form-item>
       <el-form-item style="padding-right: 0px">
-        <el-button @click="exportdata(1,20,'所有页')" type="primary">导出所有</el-button>
+        <el-button @click="exportdata(1,20,'所有页')" type="primary">导出所有设备信息为Excel</el-button>
       </el-form-item>
     </el-form>
     <el-table

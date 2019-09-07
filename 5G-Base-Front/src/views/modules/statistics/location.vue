@@ -3,7 +3,7 @@
 
 
     <el-row :gutter="20">
-      <el-col :span="12">
+      <el-col :span="20">
         <el-card>
           <div id="J_chartPieBox" class="chart-box"></div>
         </el-card>

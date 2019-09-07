@@ -64,16 +64,16 @@
     </el-form>
 
     <el-form :inline="true" label-width="150px" :rules="dataRules" ref="dataForm" :model="dataForm">
-      <el-form-item label="小区：">
+      <el-form-item label="小区号：">
         <el-input v-model="dataForm.community" ></el-input>
       </el-form-item>
-      <el-form-item label="单元：">
+      <el-form-item label="单元号：">
         <el-input v-model="dataForm.unit" ></el-input>
       </el-form-item>
-      <el-form-item label="楼层：">
+      <el-form-item label="楼层号：">
         <el-input v-model="dataForm.floor"></el-input>
       </el-form-item>
-      <el-form-item label="楼道：">
+      <el-form-item label="楼道号：">
         <el-input v-model="dataForm.corridor"></el-input>
       </el-form-item>
       <el-form-item label="房间号">
