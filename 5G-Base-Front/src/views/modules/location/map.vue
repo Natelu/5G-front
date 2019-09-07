@@ -1,6 +1,6 @@
 <template>
   <div>
-      <el-form :inline="true">
+      <!-- <el-form :inline="true">
         <el-form-item label-width="30px">
           <el-amap-search-box class="search-box"
 
@@ -11,13 +11,13 @@
         <el-form-item>
           <el-button v-if="isAuth('operate:map:save')" type="primary" @click="AddLocation()">新增</el-button>
         </el-form-item>
-      </el-form>
+      </el-form> -->
 
       <div class="amap-wrapper">
         <el-amap vid="amap" :plugin="plugin"  :center="center" :zoom ="zoom">
           <div v-if=" markersflag == true ">
               <!-- <el-amap-marker  v-for="(marker,idx) in markers" :key= "idx" :position="marker.marker" :events="marker.events"></el-amap-marker> -->
-            <el-amap-marker  v-for="(marker,idx) in markers" :key= "idx" :position="marker.marker.position" :template="marker.marker.template" :events="marker.events"></el-amap-marker>
+            <el-amap-marker  v-for="(marker,idx) in markers" :key= "idx" :position="marker.marker.position" :template="marker.marker.template" :events="marker.marker.events"></el-amap-marker>
             <el-amap-info-window v-if="windowitem" :position="windowitem.position" :visible="windowitem.visible" :content="windowitem.content"></el-amap-info-window>
           </div>
         </el-amap>
@@ -43,6 +43,7 @@
 
     data () {
       let self = this;
+      let Bases = Response
       return {
         choesLocation:'',
         dataForm: {
@@ -77,7 +78,7 @@
         addLocationVisible: false,
         //地图
         locationinfor:'',
-        center: [103.98291, 30.57531],
+        center: [116.882774, 36.624876],
         zoom:15, // 放大比列
         lng: 0,
         lat: 0,
@@ -87,10 +88,10 @@
           events: {
            init (o) {
               // o 是高德地图定位插件实例
-             self.clearmarkers()
+            //  self.clearmarkers()
               o.getCurrentPosition((status, result) => {
                 if (result && result.position) {
-                  console.log("当前地址:"+result.formattedAddress)
+                  // console.log("当前地址:"+result.formattedAddress)
                   self.locationinfor = result.formattedAddress;
                   self.choesLocation = result.formattedAddress;
                   self.dataForm = JSON.parse(JSON.stringify(result.addressComponent, null, 4));
@@ -102,7 +103,7 @@
                   // let marker = [self.lng, self.lat];
                   let marker = {
                     position: [self.lng, self.lat],
-                    template: `<img src="./static/img/base.png">`,
+                    template: `<img src="./static/img/blue.gif">`,
                     events:{
                       click() {
                         self.windows.forEach(window => {
@@ -110,24 +111,24 @@
                         });
                       }
                     }
-
-                    // template: `<button>点击</button>`
                   }
-                  console.log(marker)
                   self.markers = [{
                     marker: marker
                   }
                   ];
+                  // console.log(self.markers)
+                  let resp = Bases.Response;
+                  self.showBases(Bases) 
                   self.markersflag = true;
                   self.loaded = true;
-                  self.$nextTick();
                 }
+                
               });
             },
           }
         }],
         markersflag: false,
-        markers: [],
+        // markers: [],
         //地图窗口
         windows: [],
         windowitem: '',
@@ -139,38 +140,46 @@
     },
     mounted:function () {
       //this.getDataList()
-      this.showBases(Response);
+      // this.showBases(Response);
     },
     methods: {
       //基站展示
 
       showBases(bases){
         let self = this;
-        console.log("callback  showBases");
-        bases = JSON.parse(JSON.stringify(bases));
-        console.log(bases.Response.response.bases)
         bases = bases.Response.response.bases;
         let posLength = bases.length;
-        console.log("posLength 长度" + posLength)
-        self.markers = [];
+        self.clearmarkers();
         for(var i = 0; i < posLength; i++){
-          let tempPos = bases[i].position;
+          let tempPos = bases[i].location;
           let healthy = bases[i].health;
-          let icon = healthy ? './static/img/baseNormal.png': './static/img/baseErr.png'
+          let icon = healthy ? './static/img/blue.gif': './static/img/red.gif'
           let marker = {
-            position: [tempPos.lnt, tempPos.lat],
-            template: `<img src="` + icon + '">'
+            position: [tempPos.lng, tempPos.lat],
+            template: `<img src="` + icon + '">',
+            events: {
+                click () {
+                  self.windows.forEach(window => {
+                    window.visible = false;
+                  });
+                  console.log(position)
+                  self.window = self.windows[i];
+                  console.log('click bases')
+                  console.log(self.windows)
+                  self.$nextTick(() => {
+                    self.window.visible = true;
+                  });
+                  console.log(self.windows[0])
+                 /* let windowItem = self.windows[0];
+                  self.windowitem = windowItem;*/
+
+                }
+              }
           };
-          console.log(marker)
           self.markers.push({
             marker: marker
           });
         };
-        console.log("markers长度：" + self.markers.length);
-        self.markersflag = true;
-        self.loaded = true;
-        // self.$nextTick();
-        // self.
       },
       //地图搜索
       onSearchResult (pois) {
@@ -277,7 +286,7 @@
                 self.dataForm.businessAreas.push(supply)
               }
               console.log("修改搜索详情:" + JSON.stringify(self.dataForm, null, 4))
-              tself.showWindows()
+              self.showWindows()
             }
           }
         });
@@ -291,10 +300,10 @@
 <style>
   .amap-wrapper {
     position:absolute;
-    top:75px;
-    left:25px;
-    width:96%;
-    height:81%;
+    /* top:75px; */
+    /* left:25px; */
+    width:100%;
+    height:100%;
   }
   .search-box {
     position:absolute;

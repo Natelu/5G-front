@@ -72,6 +72,8 @@
       dataFormSubmit () {
         this.$refs['dataForm'].validate((valid) => {
           if (valid) {
+            console.log("登录请求地址：")
+            console.log(this.$http.adornUrl('/sys/login'))
             this.$http({
               url: this.$http.adornUrl('/sys/login'),
               method: 'post',
@@ -81,6 +83,7 @@
                 'uuid': this.dataForm.uuid,
                 'captcha': this.dataForm.captcha
               })
+              // console.log(url);
             }).then(({data}) => {
               if (data && data.code === 0) {
                 this.$cookie.set('token', data.token)
