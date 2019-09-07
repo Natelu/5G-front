@@ -117,8 +117,9 @@
                   }
                   ];
                   // console.log(self.markers)
-                  let resp = Bases.Response;
-                  self.showBases(Bases) 
+                  let resp = Bases.Response.response.bussinessAreas;
+                  console.log(resp)
+                  self.showBases(resp) 
                   self.markersflag = true;
                   self.loaded = true;
                 }
@@ -147,12 +148,12 @@
 
       showBases(bases){
         let self = this;
-        bases = bases.Response.response.bases;
         let posLength = bases.length;
         self.clearmarkers();
         for(var i = 0; i < posLength; i++){
-          let tempPos = bases[i].location;
-          let healthy = bases[i].health;
+          let base = bases[i];
+          let tempPos = base.location;
+          let healthy = base.health;
           let icon = healthy ? './static/img/blue.gif': './static/img/red.gif'
           let marker = {
             position: [tempPos.lng, tempPos.lat],
@@ -162,14 +163,18 @@
                   self.windows.forEach(window => {
                     window.visible = false;
                   });
-                  console.log(position)
-                  self.window = self.windows[i];
-                  console.log('click bases')
-                  console.log(self.windows)
-                  self.$nextTick(() => {
-                    self.window.visible = true;
-                  });
-                  console.log(self.windows[0])
+                  // console.logn(this)
+                  self.dataForm = base;
+                  console.log(self.dataForm)
+                  self.showWindows(self.dataForm)
+                  // self.setdataForm(tempPos.lng, tempPos.lat)
+                  // self.window = self.windows[i];
+                  // console.log('click bases')
+                  // console.log(self.windows)
+                  // self.$nextTick(() => {
+                  //   self.window.visible = true;
+                  // });
+                  // console.log(self.windows[0])
                  /* let windowItem = self.windows[0];
                   self.windowitem = windowItem;*/
 
@@ -231,24 +236,32 @@
         this.markersflag = false
         this.markers = [];
       },
-      //展示窗口
-      showWindows () {
+      showWindows (positionObj) {
         this.windows = []
-        this.dataForm = self.dataForm
-        this.choesLocation = self.choesLocation
+        // this.dataForm = self.dataForm
+        // this.choesLocation = self.choesLocation
+        // let postionObj = this.dataFormn;
+        // console.log(positionObj)
+        let statusFlag = positionObj.health ? `<span style="color:#bbb">正常运行</span>` : `<span style="color:red">发生故障</span>`
         this.windows.push({
-          position:  this.center,
+          // position:  this.center,
+          position: [positionObj.location.lng, positionObj.location.lat],
           content: `<div class="prompt">
-                              <h3 style="text-align: center">所选位置信息</h3>
-                              <p>省: ${this.dataForm.province}</p>
-                              <p>市: ${this.dataForm.city}</p>
-                              <p>区: ${this.dataForm.district}</p>
-                              <p>街道: ${this.dataForm.street}</p>
-                              <p>详情: ${this.choesLocation}</p>
+                              <h3 style="text-align: center">所选基站信息</h3>
+                              <p>名称: ${positionObj.name}</p>
+                              <p>id: ${positionObj.id}</p>
+                              <p>设备状态: ${statusFlag}</p>
+                              <p>状态详情：${positionObj.status}</p>
                             </div>`,
-          visible: true
+          visible: false
         });
+        // ${positionObj.status}
         this.windowitem = this.windows[0];
+        this.$nextTick(() =>{
+          this.windowitem.visible = true;
+        });
+        console.log(this.windowitem)
+        console.log(this.windowitem.visible)
       },
       // 新增 / 修改
       AddLocation () {
@@ -286,7 +299,7 @@
                 self.dataForm.businessAreas.push(supply)
               }
               console.log("修改搜索详情:" + JSON.stringify(self.dataForm, null, 4))
-              self.showWindows()
+              tself.showWindows()
             }
           }
         });
