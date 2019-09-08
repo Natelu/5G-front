@@ -14,8 +14,8 @@ module.exports = {
     // 代理列表, 是否开启代理通过[./dev.env.js]配置
     proxyTable: devEnv.OPEN_PROXY === false ? {} : {
       '/proxyApi': {
-        target: 'http://120.79.81.9:8080/city-fire/',
-        // target:'http://100.6.10.176:8080/city-fire/',
+        // target: 'http://120.79.81.9:8080/city-fire/',
+        target:'http://100.4.8.64:8080/city-fire/',
         changeOrigin: true,
         pathRewrite: {
           '^/proxyApi': '/'
